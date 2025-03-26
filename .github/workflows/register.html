@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل حساب جديد</title>
+    <style>
+        /* نفس الـ CSS اللي في صفحة تسجيل الدخول */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>تسجيل حساب جديد</h1>
+        <label for="newUsername">اسم المستخدم:</label>
+        <input type="text" id="newUsername" placeholder="اختر اسم مستخدم">
+        
+        <label for="newPassword">كلمة المرور:</label>
+        <input type="password" id="newPassword" placeholder="اختر كلمة مرور">
+        
+        <button onclick="register()">تسجيل</button>
+        <p>لديك حساب بالفعل؟ <a href="login.html">سجل الدخول</a></p>
+        
+        <div id="output"></div>
+    </div>
+
+    <script>
+        function register() {
+            const newUsername = document.getElementById('newUsername').value.trim();
+            const newPassword = document.getElementById('newPassword').value.trim();
+            const outputDiv = document.getElementById('output');
+
+            if (!newUsername || !newPassword) {
+                outputDiv.innerHTML = '<span style="color: red;">يرجى إدخال اسم المستخدم وكلمة المرور!</span>';
+                return;
+            }
+
+            // جلب بيانات المستخدمين من localStorage
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+
+            // التحقق إذا كان اسم المستخدم موجود بالفعل
+            if (users.some(u => u.username === newUsername)) {
+                outputDiv.innerHTML = '<span style="color: red;">اسم المستخدم مستخدم بالفعل!</span>';
+                return;
+            }
+
+            // إضافة المستخدم الجديد
+            users.push({ username: newUsername, password: newPassword });
+            localStorage.setItem('users', JSON.stringify(users));
+
+            outputDiv.innerHTML = '<span style="color: green;">تم تسجيل الحساب بنجاح!</span>';
+        }
+    </script>
+</body>
+</html>

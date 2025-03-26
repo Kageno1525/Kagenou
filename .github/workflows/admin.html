@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة الإدارة</title>
+    <style>
+        /* نفس الـ CSS اللي في صفحة تسجيل الدخول */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>لوحة الإدارة</h1>
+        <button onclick="addUser()">إضافة مستخدم جديد</button>
+        <ul id="userList"></ul>
+    </div>
+
+    <script>
+        // جلب بيانات المستخدمين من localStorage
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        const userList = document.getElementById('userList');
+
+        function renderUsers() {
+            userList.innerHTML = '';
+            users.forEach((user, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    اسم المستخدم: ${user.username} 
+                    <button onclick="editUser(${index})">تعديل</button>
+                    <button onclick="deleteUser(${index})">حذف</button>
+                `;
+                userList.appendChild(li);
+            });
+        }
+
+        function addUser() {
+            const username = prompt("أدخل اسم المستخدم الجديد:");
+            const password = prompt("أدخل كلمة المرور الجديدة:");
+
+            if (username && password) {
+                users.push({ username, password });
+                localStorage.setItem('users', JSON.stringify(users));
+                renderUsers();
+            } else {
+                alert("يرجى إدخال اسم المستخدم وكلمة المرور!");
+            }
+        }
+
+        function editUser(index) {
+            const newUsername = prompt("أدخل اسم المستخدم الجديد:", users[index].username);
+            const newPassword = prompt("أدخل كلمة المرور الجديدة:", users[index].password);
+
+            if (newUsername && newPassword) {
+                users[index] = { username: newUsername, password: newPassword };
+                localStorage.setItem('users', JSON.stringify(users));
+                renderUsers();
+            } else {
+                alert("يرجى إدخال اسم المستخدم وكلمة المرور!");
+            }
+        }
+
+        function deleteUser(index) {
+            if (confirm("هل تريد حذف هذا المستخدم؟")) {
+                users.splice(index, 1);
+                localStorage.setItem('users', JSON.stringify(users));
+                renderUsers();
+            }
+        }
+
+        // عرض المستخدمين عند التحميل
+        renderUsers();
+    </script>
+</body>
+</html>

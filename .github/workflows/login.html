@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول</title>
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            direction: rtl;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #ffffff;
+            position: relative;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 500px;
+            text-align: right;
+            z-index: 2;
+            position: relative;
+        }
+        h1 {
+            color: #ff4d4d;
+            font-size: 32px;
+            margin-bottom: 25px;
+        }
+        label {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #ff4d4d;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            transition: all 0.3s ease;
+        }
+        button {
+            background: linear-gradient(135deg, #ff4d4d, #ff7e5f);
+            color: #ffffff;
+            border: none;
+            padding: 15px 25px;
+            font-size: 18px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            transform: scale(1.05);
+        }
+        #output {
+            margin-top: 30px;
+            font-size: 18px;
+            min-height: 50px;
+            color: #ff4d4d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>تسجيل الدخول</h1>
+        <label for="username">اسم المستخدم:</label>
+        <input type="text" id="username" placeholder="أدخل اسم المستخدم">
+        
+        <label for="password">كلمة المرور:</label>
+        <input type="password" id="password" placeholder="أدخل كلمة المرور">
+        
+        <button onclick="login()">دخول</button>
+        <p>ليس لديك حساب؟ <a href="register.html">سجل الآن</a></p>
+        
+        <div id="output"></div>
+    </div>
+
+    <script>
+        function login() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const outputDiv = document.getElementById('output');
+
+            // جلب بيانات المستخدمين من localStorage
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+
+            // البحث عن المستخدم
+            const user = users.find(u => u.username === username && u.password === password);
+
+            if (user) {
+                // إذا كان اسم المستخدم وكلمة المرور بتوع الادمن
+                if (username === "kageno" && password === "ahmed123") {
+                    window.location.href = "admin.html"; // تحويل للوحة الإدارة
+                } else {
+                    window.location.href = "welcome.html"; // تحويل لصفحة الترحيب
+                }
+            } else {
+                outputDiv.innerHTML = '<span style="color: red;">خطأ: اسم المستخدم أو كلمة المرور غير صحيحة!</span>';
+            }
+        }
+    </script>
+</body>
+</html>
